@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 29% 4%;
+    --foreground: 210 20% 90%;
+
+    --card: 212 27% 8%;
+    --card-foreground: 210 20% 90%;
+
+    --popover: 212 27% 10%;
+    --popover-foreground: 210 20% 90%;
+
+    --primary: 168 76% 42%;
+    --primary-foreground: 210 29% 4%;
+
+    --secondary: 212 27% 12%;
+    --secondary-foreground: 210 20% 80%;
+
+    --muted: 212 27% 15%;
+    --muted-foreground: 215 16% 55%;
+
+    --accent: 168 76% 42%;
+    --accent-foreground: 210 29% 4%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 212 27% 18%;
+    --input: 212 27% 15%;
+    --ring: 168 76% 42%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(168 76% 42%), hsl(152 76% 36%));
+    --border-dashed: hsl(168 76% 42% / 0.4);
+    --glow-primary: 0 0 20px hsl(168 76% 42% / 0.3);
+  }
+
+  .dark {
+    --background: 210 29% 4%;
+    --foreground: 210 20% 90%;
+    --card: 212 27% 8%;
+    --card-foreground: 210 20% 90%;
+    --popover: 212 27% 10%;
+    --popover-foreground: 210 20% 90%;
+    --primary: 168 76% 42%;
+    --primary-foreground: 210 29% 4%;
+    --secondary: 212 27% 12%;
+    --secondary-foreground: 210 20% 80%;
+    --muted: 212 27% 15%;
+    --muted-foreground: 215 16% 55%;
+    --accent: 168 76% 42%;
+    --accent-foreground: 210 29% 4%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 212 27% 18%;
+    --input: 212 27% 15%;
+    --ring: 168 76% 42%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .card-dashed {
+    @apply border-2 border-dashed rounded-lg p-8;
+    border-color: var(--border-dashed);
+    background: hsl(var(--card));
+  }
+
+  .btn-gradient {
+    background: var(--gradient-primary);
+    @apply text-primary-foreground font-medium py-3 px-6 rounded-md transition-all duration-200;
+  }
+
+  .btn-gradient:hover {
+    box-shadow: var(--glow-primary);
+    transform: translateY(-1px);
+  }
+
+  .dropdown-trigger {
+    @apply w-full flex items-center justify-between px-4 py-3 rounded-md border border-border bg-card text-foreground transition-colors;
+  }
+
+  .dropdown-trigger:hover {
+    @apply border-primary/50;
+  }
+
+  .dropdown-trigger:focus {
+    @apply outline-none ring-2 ring-primary/30 border-primary;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
