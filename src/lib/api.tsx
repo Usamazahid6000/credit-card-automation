@@ -4,7 +4,6 @@ import { useAuthStore } from "@/store/auth";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: configs.apiUrl,
-  timeout: configs.timeout,
   headers: configs.headers,
 });
 

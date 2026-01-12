@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { FilterSection } from "@/components/FilterSection";
 import { StatusSection } from "@/components/StatusSection";
 import { ResultsSection } from "@/components/ResultsSection";
+import { ListView } from "@/components/ListView";
 import { toast } from "sonner";
 
 export default function Dashboard() {
@@ -24,11 +25,10 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="container px-6 py-8 space-y-8 animate-fade-in">
-        <FilterSection onSearch={handleSearch} />
-        <StatusSection processed={0} total={0} />
-        <ResultsSection hasData={hasSearched} />
+        {/* <FilterSection onSearch={handleSearch} /> */}
+        <ListView />
       </main>
     </div>
   );

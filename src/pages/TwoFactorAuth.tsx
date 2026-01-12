@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Shield, ArrowLeft, RefreshCw } from "lucide-react";
+import { Shield, ArrowLeft } from "lucide-react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -10,23 +10,15 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import apiClient from "@/lib/api";
 import { useAuthStore } from "@/store/auth";
+import { useAuth } from "@/providers/AuthProvider";
 
 export default function TwoFactorAuth() {
   const navigate = useNavigate();
   const codeId = useAuthStore((state) => state.codeId);
   const setAuth = useAuthStore((state) => state.setAuth);
+  const { setTokens } = useAuth();
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isResending, setIsResending] = useState(false);
-  const [countdown, setCountdown] = useState(0);
-
-  // Countdown timer for resend code
-  useEffect(() => {
-    if (countdown > 0) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [countdown]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +52,6 @@ export default function TwoFactorAuth() {
       const result = response.data;
 
       if (result.verified && result.access_token) {
-        // Store auth data in zustand
         setAuth({
           user: result.user,
           access_token: result.access_token,
@@ -68,9 +59,17 @@ export default function TwoFactorAuth() {
           expires_in: result.expires_in,
         });
 
+        setTokens({
+          access_token: result.access_token,
+          refresh_token: result.refresh_token,
+          expires_in: result.expires_in,
+          user: result.user,
+        });
+
         toast.success(result.message || "Verification successful", {
           description: "Redirecting to dashboard...",
         });
+
         navigate("/dashboard");
       } else {
         toast.error("Verification failed", {
@@ -152,35 +151,6 @@ export default function TwoFactorAuth() {
               )}
             </button>
           </form>
-
-          {/* <div className="mt-6 pt-6 border-t border-border">
-            <div className="flex flex-col items-center gap-3">
-              <p className="text-sm text-muted-foreground text-center">
-                Didn't receive a code?
-              </p>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={handleResendCode}
-                disabled={isResending || countdown > 0}
-                className="text-primary hover:text-primary/80"
-              >
-                {isResending ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : countdown > 0 ? (
-                  `Resend code in ${countdown}s`
-                ) : (
-                  <>
-                    <RefreshCw className="h-4 w-4" />
-                    Resend Code
-                  </>
-                )}
-              </Button>
-            </div>
-          </div> */}
 
           <div className="mt-6 pt-6 border-t border-border text-center">
             <Button

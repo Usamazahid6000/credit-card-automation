@@ -103,6 +103,6 @@ export const useAuthStore = create<AuthState>()(
         }
       },
     }),
-    { name: "AuthStore" }
+    { name: "AuthStore", trace: true }
   )
 );

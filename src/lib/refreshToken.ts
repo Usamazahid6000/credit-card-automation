@@ -18,7 +18,6 @@ export const refreshTokenAPI = async (
       headers: {
         "Content-Type": "application/json",
       },
-      timeout: configs.timeout,
     }
   );
 
